@@ -1,91 +1,42 @@
 import React from 'react'
+import TreeNode from './TreeNode'
 
-type Node = {
+export type Node = {
   content: React.ReactNode
   childNodes?: Node[]
+  hideChild?: boolean
 }
 
 type Props = {
+  borderColor?: string
+  borderStyle?: string
+  borderWidth?: string
+  hideRoot?: boolean
+  horizontalMargin?: string | number
+  verticalMargin?: string | number
   node: Node
 }
 
 const OrganizationTreeChart = (props: Props): JSX.Element => {
-  const { node } = props
-
-  return <TreeNode edges={['start', 'end']} node={node} />
+  const {
+    borderColor = 'gray',
+    borderStyle = 'solid',
+    borderWidth = '1px',
+    hideRoot = false,
+    horizontalMargin = '1rem',
+    verticalMargin = '5rem',
+    node,
+  } = props
+  const newProps = {
+    borderColor,
+    borderStyle,
+    borderWidth,
+    hideRoot,
+    horizontalMargin,
+    verticalMargin,
+    node,
+  }
+  return <TreeNode {...newProps} depth={0} edgeEnd edgeStart />
 }
 
 export default OrganizationTreeChart
-
-type TreeNodeProps = Props & {
-  edges: ('start' | 'end')[]
-}
-
-const TreeNode = (props: TreeNodeProps) => {
-  const { edges, node } = props
-
-  return (
-    <div style={{ justifyItems: 'center', flexGrow: 1 }}>
-      <div style={{ display: 'flex', height: '1rem' }}>
-        <div
-          style={{
-            borderStyle: 'solid',
-            borderColor: 'blue',
-            borderWidth: 0,
-            borderRightWidth: 1,
-            flexGrow: 1,
-            borderTopWidth: edges.includes('start') ? 0 : 1,
-          }}
-        />
-        <div
-          style={{
-            borderStyle: 'solid',
-            borderColor: 'blue',
-            borderWidth: 0,
-            flexGrow: 1,
-            borderTopWidth: edges.includes('end') ? 0 : 1,
-          }}
-        />
-      </div>
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
-        {node.content}
-      </div>
-      {node.childNodes?.length && (
-        <>
-          <div style={{ display: 'flex', height: '1rem' }}>
-            <div
-              style={{
-                borderStyle: 'solid',
-                borderColor: 'blue',
-                borderWidth: 0,
-                borderRightWidth: 1,
-                flexGrow: 1,
-              }}
-            />
-            <div style={{ flexGrow: 1 }} />
-          </div>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-evenly',
-            }}
-          >
-            {node.childNodes.map((n, i) => (
-              <TreeNode
-                key={i}
-                edges={
-                  i === 0 && node.childNodes?.length === 1
-                    ? ['start', 'end']
-                    : i === 0
-                    ? ['start']
-                    : ['end']
-                }
-                node={n}
-              />
-            ))}
-          </div>
-        </>
-      )}
-    </div>
-  )
-}

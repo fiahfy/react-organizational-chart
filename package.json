@@ -1,6 +1,6 @@
 {
   "name": "@fiahfy/react-organizational-chart",
-  "description": "WIP",
+  "description": "React Component for Rendering Organizational Chart",
   "version": "0.0.0",
   "author": {
     "name": "fiahfy",
@@ -46,7 +46,8 @@
   },
   "scripts": {
     "build": "tsc",
-    "dev": "concurrently \"tsc -w\" \"parcel examples/index.html\"",
+    "dev": "parcel examples/index.html",
+    "generate": "rm -rf docs && parcel build examples/index.html -d docs",
     "lint": "npm run lint:eslint && npm run lint:prettier",
     "lint:eslint": "eslint -f codeframe --ext .js,.ts --ignore-path .gitignore .",
     "lint:prettier": "prettier -c --ignore-path .gitignore .",
